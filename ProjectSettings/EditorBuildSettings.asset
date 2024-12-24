@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 3fc8acdd13e6c734bafef6554d6fdbcd
+  - enabled: 1
+    path: Assets/Scenes/SettingsScene.unity
+    guid: c6532b752dbd82a47a6196d12b59aea3
+  - enabled: 1
+    path: Assets/Scenes/Catcher.unity
+    guid: e8ee49c966dc4024eb41307b87cd3b4f
+  - enabled: 1
+    path: Assets/Scenes/About Us.unity
+    guid: 1d38c0b06fb5c3241922c5851eb6bb0f
+  - enabled: 1
+    path: Assets/Scenes/Shaper.unity
+    guid: a005741e18b888943be646addc4dddab
+  - enabled: 1
+    path: Assets/Scenes/CatcherLoad.unity
+    guid: 00aa07ba2845531418af8991cea92744
+  - enabled: 1
+    path: Assets/Scenes/Space Panic.unity
+    guid: 81b4abd65d6b41b4899b9d14e243ad73
+  - enabled: 1
+    path: Assets/Scenes/Clear the way Load.unity
+    guid: 115bcbef7e10e194a97e8629e833cadc
+  - enabled: 1
+    path: Assets/Scenes/Space panic Load.unity
+    guid: 389c01c700b8b364f90b340c5c6bb57d
+  - enabled: 1
+    path: Assets/Scenes/Shaper Load.unity
+    guid: 183e8200d81181c4590295007ff123e0
+  - enabled: 1
+    path: Assets/Scenes/Terms of use.unity
+    guid: 4d021c03b8dab834eb29ee1d555588d2
+  - enabled: 1
+    path: Assets/Scenes/Clear the Way.unity
+    guid: 9fbba58f4c702b8499b351da634ba9ef
+  - enabled: 1
+    path: Assets/Scenes/ScoreBoardScene.unity
+    guid: 76204c6c88fa30f4583ad7e72a4d8b31
+  - enabled: 1
+    path: Assets/Scenes/Privacy policy.unity
+    guid: b6a3a05abb945a146bbb7f45d996d932
+  m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 6acf3920c86236d44a0196ecb82f3650, type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 11c2c42724ab1524f99753374949ee6b, type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 4704afa7f01541c4eb96531c2d10b372, type: 2}
