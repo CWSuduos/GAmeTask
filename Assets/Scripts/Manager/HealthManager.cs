@@ -114,7 +114,8 @@ public class HealthManager : MonoBehaviour
     {
         Debug.Log("[HealthManager] Game paused.");
         // Полностью останавливаем время
-        FindObjectOfType<GameOverUIManager>()?.ShowGameOverPanel();
+        FindObjectOfType<GameOverUIManager>()?.ShowResultPanel();
+        FindObjectOfType<GameOverUIManager>()?.ShowLosePanel();
     }
 
     // Возобновление игры

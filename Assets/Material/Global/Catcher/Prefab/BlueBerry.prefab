@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6760284543015705260}
   - component: {fileID: 5015175858119133047}
   - component: {fileID: -1862453998298194241}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: BlueBerry
   m_TagString: Untagged
   m_Icon: {fileID: 0}

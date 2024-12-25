@@ -8,6 +8,8 @@ public class ObjectTracker : MonoBehaviour
     // Изначальная позиция объекта
     private Vector3 initialPosition;
 
+    private GameObject replacementObject;
+
     void Start()
     {
         // Сохраняем изначальную позицию объекта
@@ -37,16 +39,51 @@ public class ObjectTracker : MonoBehaviour
         if (replacementPrefab != null)
         {
             // Создаем заменяющий объект на изначальной позиции
-            GameObject replacement = Instantiate(replacementPrefab, initialPosition, Quaternion.identity);
+            replacementObject = Instantiate(replacementPrefab, initialPosition, Quaternion.identity);
 
             // Устанавливаем родителя для заменяющего объекта (опционально)
-            replacement.transform.SetParent(transform.parent, false);
+            replacementObject.transform.SetParent(transform.parent, false);
 
-            Debug.Log($"Создан заменяющий объект {replacement.name} на позиции {initialPosition}");
+            Debug.Log($"Создан заменяющий объект {replacementObject.name} на позиции {initialPosition}");
+
+            // Добавляем обработчик события для удаления рождённого объекта при удалении родителя
+            replacementObject.AddComponent<DeleteObjectOnParentDestroy>();
         }
         else
         {
             Debug.LogError("ReplacementPrefab не задан!");
+        }
+    }
+}
+
+// Новый скрипт для удаления объекта при удалении его родителя
+public class DeleteObjectOnParentDestroy : MonoBehaviour
+{
+    void OnDestroy()
+    {
+        // Если объект был удален, проверяем, был ли удален его родитель
+        if (transform.parent == null)
+        {
+            // Удаляем объект
+            Destroy(gameObject);
+        }
+    }
+
+    // Обработчик события при удалении родительского объекта
+    void OnParentDestroy()
+    {
+        // Удаляем объект
+        Destroy(gameObject);
+    }
+
+    // Обработчик события при удалении родительского объекта
+    void LateUpdate()
+    {
+        // Проверяем, был ли удален родительский объект
+        if (transform.parent == null)
+        {
+            // Вызываем метод OnParentDestroy
+            OnParentDestroy();
         }
     }
 }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3291843656507466622}
   - component: {fileID: 5777597664591613098}
   - component: {fileID: 7625965567292537036}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: bananaCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,4 +197,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc4ba0558ec21974583cb6b7eb171699, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSpecial: 0
+  isSpecial: 1

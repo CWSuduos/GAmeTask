@@ -14,6 +14,7 @@ public class DifficultySettings : MonoBehaviour
 
     [Header("Настройки сложности")]
     public List<DifficultyData> difficultySettings = new List<DifficultyData>();
+    public bool StartTime {  get; private set; }
 
     private int currentDifficultyIndex = 0;
 
@@ -39,6 +40,7 @@ public class DifficultySettings : MonoBehaviour
                 new DifficultyData { time = 300f, chance = 0.1f }
             };
         }
+        StartTime = false;
     }
 
     // Возвращает данные сложности по индексу
@@ -68,6 +70,7 @@ public class DifficultySettings : MonoBehaviour
         if (difficultyIndex >= 0 && difficultyIndex < difficultySettings.Count)
         {
             currentDifficultyIndex = difficultyIndex;
+            StartTime = true;
             Debug.Log($"[DifficultySettings] Установлена сложность: {difficultyIndex}, Время: {difficultySettings[difficultyIndex].time}");
         }
         else
@@ -75,4 +78,5 @@ public class DifficultySettings : MonoBehaviour
             Debug.LogWarning($"[DifficultySettings] Некорректный индекс сложности: {difficultyIndex}");
         }
     }
+
 }

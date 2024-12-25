@@ -11,10 +11,6 @@ public class SpawnerController : MonoBehaviour
     public bool canSpawn = true;
     public float fixedZPosition = 0f;
 
-    // Параметры для слоев сортировки
-    public string foregroundSortingLayer = "Foreground";
-    public int orderInLayer = 10;
-
     private int spawnedObjectsCount = 0;
     private float nextSpawnTime = 0f;
     private Camera mainCamera;
@@ -66,26 +62,17 @@ public class SpawnerController : MonoBehaviour
         Vector3 randomPosition = transform.position + new Vector3(
             Random.Range(-cameraWidth / 2f, cameraWidth / 2f),
             Random.Range(-spawnAreaHeight / 2f, spawnAreaHeight / 2f),
-            Random.Range(-5f, 5f) // Здесь изменено, чтобы z был случайным в пределах -5 до 5
+            Random.Range(-5f, 5f)
         );
 
         GameObject spawnedObject = Instantiate(prefabToSpawn, randomPosition, Quaternion.identity);
-
-        // Установка слоя сортировки и порядка отрисовки
-        Renderer renderer = spawnedObject.GetComponent<Renderer>();
-        if (renderer != null)
-        {
-            renderer.sortingLayerName = foregroundSortingLayer;
-            renderer.sortingOrder = orderInLayer;
-        }
-
         spawnedObjectsCount++;
         spawnedObject.transform.SetParent(transform);
     }
 
     private GameObject ChoosePrefabByChance()
     {
-        float totalChance = spawnChances.Sum(); // Используем LINQ для суммирования
+        float totalChance = spawnChances.Sum();
         float randomValue = Random.Range(0f, totalChance);
         float cumulativeChance = 0f;
 
@@ -98,7 +85,7 @@ public class SpawnerController : MonoBehaviour
             }
         }
 
-        return prefabsToSpawn[0]; // Вернет первый элемент, если все шансы равны нулю или массив пуст
+        return prefabsToSpawn[0];
     }
 
     private float GetCameraWidth()
@@ -118,8 +105,6 @@ public class SpawnerController : MonoBehaviour
         Vector3 gizmosPosition = transform.position;
         gizmosPosition.z = fixedZPosition;
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(gizmosPosition, new Vector3(cameraWidth, spawnAreaHeight, 10f)); // Изменил глубину для визуализации Z
+        Gizmos.DrawWireCube(gizmosPosition, new Vector3(cameraWidth, spawnAreaHeight, 10f));
     }
-
-    // Функции ResetSpawnedObjectsCount и DestroySpawnedObjects не упоминались, поэтому они остаются без изменений
 }

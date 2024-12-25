@@ -14,8 +14,13 @@ public class ScoreCsomosTimer : MonoBehaviour
 
     private float timer = 0f;   // Таймер для отсчёта секунд
 
+    private DifficultyBasedTimer difficultyTimer; // Ссылка на DifficultyBasedTimer
+
     void Start()
     {
+        // Находим DifficultyBasedTimer при старте
+        difficultyTimer = FindObjectOfType<DifficultyBasedTimer>();
+
         // Назначаем действие для кнопки
         if (startButton != null)
         {
@@ -33,6 +38,13 @@ public class ScoreCsomosTimer : MonoBehaviour
     {
         if (isCounting && isPlayerAlive)
         {
+            // Проверяем, не остановлен ли таймер
+            if (difficultyTimer != null && !difficultyTimer.IsTimerRunning)
+            {
+                StopCounting();
+                return; // Выходим из Update, чтобы избежать дальнейшего увеличения счета
+            }
+
             timer += Time.deltaTime;
 
             // Каждая прошедшая секунда
@@ -63,7 +75,8 @@ public class ScoreCsomosTimer : MonoBehaviour
 
     public void StopCounting()
     {
-        isCounting = false; // Останавливаем счётчик
+        isCounting = false;
+        Debug.Log("Счётчик очков остановлен.");
     }
 
     // Метод, вызываемый при смерти игрока

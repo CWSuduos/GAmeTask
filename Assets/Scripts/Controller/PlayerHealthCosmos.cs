@@ -20,7 +20,8 @@ public class PlayerHealthCosmos : MonoBehaviour
             Debug.Log("»грок погиб!");
             Destroy(gameObject); // ”ничтожаем игрока
             GameOverUIManager gameOverUIManager = GameObject.FindObjectOfType<GameOverUIManager>();
-            gameOverUIManager.ShowGameOverPanel();
+            gameOverUIManager.ShowLosePanel();
+            gameOverUIManager.ShowResultPanel();
         }
     }
 

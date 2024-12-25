@@ -1,5 +1,6 @@
+using System;
 using UnityEngine;
-
+using UnityEngine.Events;
 public class ObjectBehavior : MonoBehaviour
 {
     public bool isDestroyable = false;
@@ -10,12 +11,42 @@ public class ObjectBehavior : MonoBehaviour
 
     private bool isDragging = false;
     private Vector3 offset;
+    private Rigidbody2D rb2D;
 
+    [Tooltip("Слой, на который объект переносится при захвате мышью.")]
+    public string sortingLayerOnDrag = "Dragging";
+
+    [Tooltip("Слой по умолчанию.")]
+    public string defaultSortingLayer = "Default";
+
+    private SpriteRenderer spriteRenderer;
+
+    // Событие, которое вызывается при уничтожении объекта
+    public delegate void OnDestroyEventHandler(GameObject destroyedObject);
+    public event OnDestroyEventHandler onDestroy;
+    private ObjectGeneratorList generator;
+
+    public void SetGenerator(ObjectGeneratorList gen)
+    {
+        generator = gen;
+    }
     private void Start()
     {
         if (isDestroyable)
         {
             ScoreCounter.Instance.TrackObject(gameObject);
+        }
+
+        rb2D = GetComponent<Rigidbody2D>();
+        if (rb2D == null)
+        {
+            Debug.LogError("Rigidbody2D не найден на объекте!");
+        }
+
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (spriteRenderer == null)
+        {
+            Debug.LogError("SpriteRenderer не найден в дочерних объектах!");
         }
     }
 
@@ -34,6 +65,18 @@ public class ObjectBehavior : MonoBehaviour
         {
             isDragging = true;
             offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            // Удаляем Rigidbody2D
+            if (rb2D != null)
+            {
+                Destroy(rb2D);
+            }
+
+            // Меняем слой сортировки
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.sortingLayerName = sortingLayerOnDrag;
+            }
         }
     }
 
@@ -42,6 +85,20 @@ public class ObjectBehavior : MonoBehaviour
         if (isMovable)
         {
             isDragging = false;
+
+            // Добавляем Rigidbody2D обратно
+            if (rb2D == null)
+            {
+                rb2D = gameObject.AddComponent<Rigidbody2D>();
+                rb2D.bodyType = RigidbodyType2D.Dynamic;
+                rb2D.gravityScale = 0;
+            }
+
+            // Возвращаем исходный слой сортировки
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.sortingLayerName = defaultSortingLayer;
+            }
         }
     }
 
@@ -51,11 +108,25 @@ public class ObjectBehavior : MonoBehaviour
         {
             Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
             newPosition.z = 0;
+
             transform.position = newPosition;
         }
     }
 
-    private void Update()
+    public event Action<GameObject> OnObjectDestroyed;
+    private void OnDestroy()
     {
-    }
+        // Вызываем событие onDestroy, если оно подписано
+        if (onDestroy != null)
+        {
+            onDestroy(gameObject);
+
+            if (OnObjectDestroyed != null)
+            {
+                OnObjectDestroyed(gameObject);
+            }
+        }
+            // Если объект с тегом PairedTag, уведомляем ScoreListManager
+
+     }
 }

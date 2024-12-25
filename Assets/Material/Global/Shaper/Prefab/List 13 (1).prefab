@@ -14,9 +14,11 @@ GameObject:
   - component: {fileID: -9091258296317033702}
   - component: {fileID: -4865787280992180466}
   - component: {fileID: -1444238924718067674}
+  - component: {fileID: -1893629977356804253}
+  - component: {fileID: -6456533445216834706}
   m_Layer: 0
   m_Name: List 13 (1)
-  m_TagString: Untagged
+  m_TagString: pairedTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52,6 +54,8 @@ MonoBehaviour:
   isDestroyable: 0
   isMovable: 1
   destroyClicksRequired: 1
+  sortingLayerOnDrag: Dragging
+  defaultSortingLayer: Default
 --- !u!114 &-2972372693923681247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +140,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sortingLayerName: Foreground
   orderInLayer: 10
+--- !u!50 &-1893629977356804253
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819463096863712412}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &-6456533445216834706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819463096863712412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e54e085743c7f45838cd6211207478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8130096561763399613
 GameObject:
   m_ObjectHideFlags: 0

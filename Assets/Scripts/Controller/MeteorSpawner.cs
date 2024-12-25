@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using JetBrains.Annotations;
+using System.Runtime.ExceptionServices;
 
 public class MeteorSpawner : MonoBehaviour
 {
@@ -17,13 +20,16 @@ public class MeteorSpawner : MonoBehaviour
     [Header("Настройки времени")]
     public float spawnInterval = 5f;     // Интервал между волнами метеоритов
     public float warningDuration = 1f;   // Длительность предупреждения
-
+   
     private Queue<GameObject> meteorQueue = new Queue<GameObject>(); // Очередь для метеоров
     private const int MAX_METEORS = 100; // Максимальное количество метеоров на сцене
 
     private void Start()
     {
-        // Деактивируем и скрываем все предупреждения в начале
+        DifficultySettings.DifficultyData currentDifficultyData = DifficultySettings.Instance.GetCurrentDifficultyData();
+        float currentChance = currentDifficultyData.chance;
+        spawnInterval = spawnInterval * currentChance;
+        warningDuration = warningDuration * currentChance;        // Деактивируем и скрываем все предупреждения в начале
         warningTop.SetActive(false);
         warningRight.SetActive(false);
         warningLeft.SetActive(false);

@@ -1,107 +1,188 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class ObjectGeneratorList : MonoBehaviour
 {
-    // Массив объектов, которые будут спавнены
     public GameObject[] objectsToSpawn;
-
-    // Массив координат, по которым будут спавнены объекты
-    public Vector3[] spawnPoints;
-
-    // Флаг, который указывает, следует ли спавнить объекты случайно или по порядку
-    public bool randomizeSpawnOrder = false;
-
-    // Булевая переменная, которая указывает, следует ли заспавнить объекты снова
-    public bool respawn = false;
+    public Transform[] spawnPoints;
+    private List<GameObject> spawnedObjects = new List<GameObject>();
 
     void Start()
     {
-        // Проверяем, что массивы объектов и точек не пусты
-        if (objectsToSpawn.Length == 0 || spawnPoints.Length == 0)
-        {
-            Debug.LogError("Массивы объектов и точек не могут быть пустыми!");
-            return;
-        }
-
-        // Спавним объекты по точкам
+        if (!ValidateSetup()) return;
         SpawnObjects();
     }
 
-    void SpawnObjects()
+    private bool ValidateSetup()
     {
-        // Если флаг randomizeSpawnOrder установлен, то перемешиваем массив объектов
-        if (randomizeSpawnOrder)
+        if (objectsToSpawn.Length == 0) { Debug.LogError("Objects to Spawn array is empty!", this); return false; }
+        if (spawnPoints.Length != 4) { Debug.LogError("Spawn Points array must have exactly 4 elements!", this); return false; }
+        foreach (var point in spawnPoints)
         {
-            objectsToSpawn = ShuffleArray(objectsToSpawn);
+            if (point == null) { Debug.LogError("One of the Spawn Points is null!", this); return false; }
+        }
+        return true;
+    }
+
+    private void SpawnObjects()
+    {
+        if (!ValidateSetup()) return;
+
+        ClearSpawnedObjects();
+
+        GameObject[] selectedObjects = new GameObject[4];
+        for (int i = 0; i < 4; i++)
+        {
+            selectedObjects[i] = objectsToSpawn[Random.Range(0, objectsToSpawn.Length)];
         }
 
-        // Спавним объекты по точкам
+        GameObject[] shuffledSelectedObjects = ShuffleArray(selectedObjects);
+
         for (int i = 0; i < spawnPoints.Length; i++)
         {
-            // Получаем текущую точку
-            Vector3 point = spawnPoints[i];
+            GameObject objectToSpawn = shuffledSelectedObjects[i];
 
-            // Получаем текущий объект
-            GameObject objectToSpawn = objectsToSpawn[i % objectsToSpawn.Length];
+            if (objectToSpawn == null)
+            {
+                Debug.LogWarning("One of the objects in the array for spawning is null.");
+                continue;
+            }
 
-            // Спавним объект по текущей точке
-            Instantiate(objectToSpawn, point, Quaternion.identity);
+            Vector3 spawnPosition = spawnPoints[i].position;
+            GameObject spawnedObject = Instantiate(objectToSpawn, spawnPosition, spawnPoints[i].rotation);
+            spawnedObjects.Add(spawnedObject);
+
+            ObjectBehavior pairedObj = spawnedObject.GetComponent<ObjectBehavior>();
+            if (pairedObj == null)
+            {
+                pairedObj = spawnedObject.AddComponent<ObjectBehavior>();
+            }
+            pairedObj.SetGenerator(this);
+            spawnedObject.tag = "pairedTag";
+
+            Rigidbody rb = spawnedObject.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = true;
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+
+            ConfineToCameraView(spawnedObject);
+
+            Debug.Log($"Spawned object {objectToSpawn.name} at {spawnedObject.transform.position} with rotation {spawnedObject.transform.rotation}");
         }
     }
 
-    // Метод, который перемешивает массив объектов
-    GameObject[] ShuffleArray(GameObject[] array)
+    private GameObject[] ShuffleArray(GameObject[] array)
     {
-        // Создаём новый массив объектов
-        GameObject[] shuffledArray = new GameObject[array.Length];
-
-        // Перемешиваем массив объектов
-        for (int i = 0; i < array.Length; i++)
+        GameObject[] shuffledArray = (GameObject[])array.Clone();
+        for (int i = shuffledArray.Length - 1; i > 0; i--)
         {
-            // Получаем случайный индекс
-            int randomIndex = Random.Range(0, array.Length);
-
-            // Помещаем объект по случайному индексу в новый массив
-            shuffledArray[i] = array[randomIndex];
-
-            // Удаляем объект из исходного массива, чтобы он не был повторен
-            array = RemoveObjectFromArray(array, randomIndex);
+            int randomIndex = Random.Range(0, i + 1);
+            GameObject temp = shuffledArray[i];
+            shuffledArray[i] = shuffledArray[randomIndex];
+            shuffledArray[randomIndex] = temp;
         }
-
-        // Возвращаем перемешанный массив объектов
         return shuffledArray;
     }
 
-    // Метод, который удаляет объект из массива по индексу
-    GameObject[] RemoveObjectFromArray(GameObject[] array, int index)
+    public void ManualRespawn()
     {
-        // Создаём новый массив объектов
-        GameObject[] newArray = new GameObject[array.Length - 1];
+        SpawnObjects();
+    }
 
-        // Копируем объекты из исходного массива в новый массив, исключая объект по индексу
-        for (int i = 0; i < index; i++)
+    private void ClearSpawnedObjects()
+    {
+        foreach (GameObject obj in spawnedObjects)
         {
-            newArray[i] = array[i];
+            if (obj != null)
+            {
+                Destroy(obj);
+            }
+        }
+        spawnedObjects.Clear();
+    }
+
+    public void OnPairedObjectDestroyed()
+    {
+        int destroyedCount = 0;
+        foreach (GameObject obj in spawnedObjects)
+        {
+            if (obj == null)
+            {
+                destroyedCount++;
+            }
         }
 
-        for (int i = index + 1; i < array.Length; i++)
+        if (destroyedCount >= 4)
         {
-            newArray[i - 1] = array[i];
+            SpawnObjects();
         }
+    }
 
-        // Возвращаем новый массив объектов
-        return newArray;
+    private void ConfineToCameraView(GameObject obj)
+    {
+        if (obj == null || Camera.main == null) return;
+
+        Vector3 viewportPos = Camera.main.WorldToViewportPoint(obj.transform.position);
+        bool isOnScreen = viewportPos.z > 0 && viewportPos.x > 0 && viewportPos.x < 1 && viewportPos.y > 0 && viewportPos.y < 1;
+
+        if (!isOnScreen)
+        {
+            viewportPos.x = Mathf.Clamp01(viewportPos.x);
+            viewportPos.y = Mathf.Clamp01(viewportPos.y);
+
+            if (viewportPos.z <= 0)
+            {
+                viewportPos.z = 0.1f;
+            }
+
+            obj.transform.position = Camera.main.ViewportToWorldPoint(viewportPos);
+
+            Rigidbody rb = obj.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+        }
     }
 
     void Update()
     {
-        // Проверяем, следует ли заспавнить объекты снова
-        if (respawn)
+        foreach (GameObject obj in spawnedObjects)
         {
-            // Заспавним объекты снова
-            SpawnObjects();
-            // Сбрасываем флаг respawn
-            respawn = false;
+            ConfineToCameraView(obj);
+        }
+    }
+
+    public void Restart()
+    {
+        //Since we're not using deletedPairedTagCount anymore, we just need to respawn
+        SpawnObjects();
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        foreach (Transform point in spawnPoints)
+        {
+            if (point != null)
+            {
+                Gizmos.DrawSphere(point.position, 0.2f);
+            }
+        }
+
+        if (Camera.main)
+        {
+            Gizmos.color = Color.yellow;
+            Matrix4x4 temp = Gizmos.matrix;
+            Gizmos.matrix = Matrix4x4.TRS(Camera.main.transform.position, Camera.main.transform.rotation, Vector3.one);
+            Gizmos.DrawFrustum(Vector3.zero, Camera.main.fieldOfView, Camera.main.farClipPlane, Camera.main.nearClipPlane, Camera.main.aspect);
+            Gizmos.matrix = temp;
         }
     }
 }
+

@@ -15,8 +15,8 @@ public class PageObjectSpawner : MonoBehaviour
     [SerializeField] private Text pageNumberText;        // Текстовое поле с номером страницы
 
     private int currentPage = 1; // Текущий номер страницы
-    private Dictionary<int, List<SpawnedObjectData>> pageData = new Dictionary<int, List<SpawnedObjectData>>(); // Данные объектов по страницам
-    private List<GameObject> currentSpawnedObjects = new List<GameObject>(); // Объекты на текущей странице
+    private Dictionary<int, List<GameObject>> pageObjects = new Dictionary<int, List<GameObject>>(); // Объекты по страницам
+    private List<GameObject> allSpawnedObjects = new List<GameObject>(); // Все объекты на сцене
 
     void Start()
     {
@@ -31,7 +31,7 @@ public class PageObjectSpawner : MonoBehaviour
     private void NextPage()
     {
         SaveCurrentPage();
-        ClearCurrentObjects();
+        HideCurrentObjects();
         currentPage++;
         UpdatePage();
     }
@@ -41,7 +41,7 @@ public class PageObjectSpawner : MonoBehaviour
         if (currentPage > 1)
         {
             SaveCurrentPage();
-            ClearCurrentObjects();
+            HideCurrentObjects();
             currentPage--;
             UpdatePage();
         }
@@ -51,9 +51,9 @@ public class PageObjectSpawner : MonoBehaviour
     {
         pageNumberText.text = $"Page:{currentPage}";
 
-        if (pageData.ContainsKey(currentPage))
+        if (pageObjects.ContainsKey(currentPage))
         {
-            RestorePageObjects();
+            ShowPageObjects();
         }
         else
         {
@@ -63,9 +63,8 @@ public class PageObjectSpawner : MonoBehaviour
 
     private void SpawnNewObjects()
     {
-        ClearCurrentObjects();
-
         GameObject[] shuffledPrefabs = ShuffleArray(objectsToSpawn);
+        List<GameObject> spawnedObjects = new List<GameObject>();
 
         for (int i = 0; i < spawnPoints.Length; i++)
         {
@@ -74,9 +73,13 @@ public class PageObjectSpawner : MonoBehaviour
                 GameObject prefabToSpawn = shuffledPrefabs[i];
                 GameObject spawnedObject = Instantiate(prefabToSpawn, spawnPoints[i].transform.position, Quaternion.identity);
                 spawnedObject.layer = LayerMask.NameToLayer(spawnLayer); // Установка слоя
-                currentSpawnedObjects.Add(spawnedObject);
+                spawnedObject.name = $"{spawnedObject.name}_{currentPage}_{i}"; // Индекс названия создания
+                spawnedObjects.Add(spawnedObject);
+                allSpawnedObjects.Add(spawnedObject);
             }
         }
+
+        pageObjects[currentPage] = spawnedObjects;
     }
 
     private GameObject[] ShuffleArray(GameObject[] array)
@@ -94,57 +97,55 @@ public class PageObjectSpawner : MonoBehaviour
 
     private void SaveCurrentPage()
     {
-        if (!pageData.ContainsKey(currentPage))
+        if (pageObjects.ContainsKey(currentPage))
         {
-            pageData[currentPage] = new List<SpawnedObjectData>();
-        }
-        else
-        {
-            pageData[currentPage].Clear();
-        }
-
-        foreach (GameObject obj in currentSpawnedObjects)
-        {
-            if (obj != null)
+            foreach (GameObject obj in pageObjects[currentPage])
             {
-                SpawnedObjectData data = new SpawnedObjectData();
-                data.prefabName = obj.name.Replace("(Clone)", "").Trim();
-                data.position = obj.transform.position;
-                data.rotation = obj.transform.rotation;
-                pageData[currentPage].Add(data);
-            }
-        }
-    }
-
-    private void RestorePageObjects()
-    {
-        ClearCurrentObjects();
-
-        if (pageData.TryGetValue(currentPage, out List<SpawnedObjectData> savedData))
-        {
-            foreach (SpawnedObjectData data in savedData)
-            {
-                GameObject prefab = FindPrefabByName(data.prefabName);
-                if (prefab != null)
+                if (obj != null && obj.activeSelf)
                 {
-                    GameObject restoredObject = Instantiate(prefab, data.position, data.rotation);
-                    restoredObject.layer = LayerMask.NameToLayer(spawnLayer); //Установка слоя
-                    currentSpawnedObjects.Add(restoredObject);
+                    obj.SetActive(false);
                 }
             }
         }
     }
 
-    private void ClearCurrentObjects()
+    private void ShowPageObjects()
     {
-        foreach (GameObject obj in currentSpawnedObjects)
+        if (pageObjects.TryGetValue(currentPage, out List<GameObject> savedObjects))
+        {
+            foreach (GameObject obj in savedObjects)
+            {
+                if (obj != null)
+                {
+                    obj.SetActive(true);
+                }
+            }
+        }
+    }
+
+    private void HideCurrentObjects()
+    {
+        if (pageObjects.ContainsKey(currentPage))
+        {
+            foreach (GameObject obj in pageObjects[currentPage])
+            {
+                if (obj != null && obj.activeSelf)
+                {
+                    obj.SetActive(false);
+                }
+            }
+        }
+    }
+
+    private void HideAllObjects()
+    {
+        foreach (GameObject obj in allSpawnedObjects)
         {
             if (obj != null)
             {
-                Destroy(obj);
+                obj.SetActive(false);
             }
         }
-        currentSpawnedObjects.Clear();
     }
 
     private GameObject FindPrefabByName(string name)
@@ -157,13 +158,5 @@ public class PageObjectSpawner : MonoBehaviour
             }
         }
         return null;
-    }
-
-    [System.Serializable]
-    public class SpawnedObjectData
-    {
-        public string prefabName;
-        public Vector3 position;
-        public Quaternion rotation;
     }
 }

@@ -1,47 +1,154 @@
 using UnityEngine;
 
-public class PairObjectHandler : MonoBehaviour
+public class PairedObjectInteraction : MonoBehaviour
 {
-    [Header("Ссылка на парный объект")]
-    public GameObject pairObject; // Парный объект
+    [Tooltip("Парный объект, который будет уничтожен при контакте. (Префаб)")]
+    public GameObject pairedObjectPrefab;
 
-    [Header("Новый спрайт после соприкосновения")]
-    public Sprite newSprite; // Новый спрайт для оригинального объекта
+    [Tooltip("Спрайт, на который заменится оригинальный после взаимодействия.")]
+    public Sprite newSprite;
 
     private SpriteRenderer spriteRenderer;
+    private Collider2D originalCollider;
 
-    void Start()
+    private string pairedTag = "pairedTag"; // Тег парного объекта
+
+    // Флаг для отслеживания изменения состояния
+    private bool isStateChanged = false;
+    private Sprite originalSprite; // Сохраняем оригинальный спрайт
+
+    private void Start()
     {
-        // Получаем компонент SpriteRenderer оригинального объекта
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        originalCollider = GetComponent<Collider2D>();
 
-        // Проверка на null
-        if (pairObject == null)
-        {
-            Debug.LogError("PairObject не назначен для " + gameObject.name);
-        }
         if (spriteRenderer == null)
         {
-            Debug.LogError("SpriteRenderer не найден на " + gameObject.name);
+            Debug.LogError("SpriteRenderer не найден в дочерних объектах!");
         }
+        if (originalCollider == null)
+        {
+            Debug.LogError("Collider2D не найден на объекте-оригинале!");
+        }
+
+        // Сохраняем оригинальный спрайт
+        originalSprite = spriteRenderer.sprite;
+
+        // Если это клон, добавляем тег
+        if (gameObject.scene.rootCount != 0 && pairedObjectPrefab != null) // Упрощенная проверка на клон
+        {
+            gameObject.tag = "OriginalTag";
+            pairedObjectPrefab.tag = pairedTag;
+        }
+
+        // Восстанавливаем состояние при включении объекта
+        RestoreState();
+    }
+
+    private void OnEnable()
+    {
+        // Восстанавливаем состояние при включении объекта
+        RestoreState();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Проверяем, что объект столкнулся с парным объектом
-        if (collision.gameObject == pairObject)
+        if (collision == null || collision.gameObject == null)
         {
-            // Уничтожаем парный объект
-            Destroy(pairObject);
+            Debug.LogError("Collision или GameObject равен null!");
+            return;
+        }
 
-            // Меняем спрайт оригинального объекта
-            if (newSprite != null)
+        // Проверяем тег и префаб
+        if (collision.gameObject.CompareTag(pairedTag) &&
+            gameObject.CompareTag("OriginalTag") &&
+            collision.gameObject.name.StartsWith(pairedObjectPrefab.name)) // Убеждаемся что имя префаба совпадает
+        {
+            ProcessInteraction(collision.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other == null || other.gameObject == null)
+        {
+            Debug.LogError("Collider или GameObject равен null!");
+            return;
+        }
+
+        // Проверяем тег и префаб
+        if (other.gameObject.CompareTag(pairedTag) &&
+            gameObject.CompareTag("OriginalTag") &&
+            other.gameObject.name.StartsWith(pairedObjectPrefab.name)) // Убеждаемся что имя префаба совпадает
+        {
+            ProcessInteraction(other.gameObject);
+        }
+    }
+
+    private void ProcessInteraction(GameObject other)
+    {
+        if (other == null)
+        {
+            Debug.LogError("Объект other равен null!");
+            return;
+        }
+
+        // Уничтожаем клон парного объекта
+        Destroy(other);
+
+        // Меняем спрайт оригинального объекта
+        if (newSprite != null && spriteRenderer != null)
+        {
+            spriteRenderer.sprite = newSprite;
+        }
+        else
+        {
+            if (newSprite == null)
+            {
+                Debug.LogWarning("NewSprite не назначен!");
+            }
+            if (spriteRenderer == null)
+            {
+                Debug.LogError("SpriteRenderer равен null!");
+            }
+        }
+
+        // Удаляем коллайдер оригинального объекта
+        if (originalCollider != null)
+        {
+            Destroy(originalCollider);
+        }
+        else
+        {
+            Debug.LogError("OriginalCollider равен null!");
+        }
+
+        // Устанавливаем флаг изменения состояния
+        isStateChanged = true;
+    }
+
+    // Метод для восстановления состояния
+    private void RestoreState()
+    {
+        if (isStateChanged)
+        {
+            // Если состояние было изменено, применяем изменения
+            if (newSprite != null && spriteRenderer != null)
             {
                 spriteRenderer.sprite = newSprite;
             }
-            else
+            // Удаляем коллайдер, если он еще существует
+            if (originalCollider != null)
             {
-                Debug.LogWarning("Новый спрайт не назначен для " + gameObject.name);
+                Destroy(originalCollider);
+            }
+        }
+        else
+        {
+            // Если состояние не было изменено, восстанавливаем оригинальный спрайт
+            if (originalSprite != null && spriteRenderer != null)
+            {
+                spriteRenderer.sprite = originalSprite;
             }
         }
     }

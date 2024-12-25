@@ -1,13 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
-
+using System.Collections;
 public class GameOverUIManager : MonoBehaviour
 {
-    
     [Header("UI Elements")]
-    public GameObject gameOverPanel; // Панель Game Over
+    public GameObject gameOverPanel; // Главная панель (можно использовать как контейнер)
     public Text finalScoreText;      // Текст для отображения финального счёта
 
     [Header("Spawner Settings")]
@@ -18,41 +16,56 @@ public class GameOverUIManager : MonoBehaviour
     public GameObject[] objectsToHide; // Массив объектов, которые нужно скрыть
     public GameObject[] objectsToShow; // Массив объектов, которые нужно показать
 
+    [Header("Win/Lose Panels")]
+    public GameObject winPanel;   // Объект плашки победы
+    public GameObject losePanel;  // Объект плашки поражения
+
+    public bool isPlayerAlive = true; // Флаг, указывающий, жив ли игрок (для HandleTimerStop)
+
+    private bool hasTimerStopped = false;
+
+    private void HandleTimerStop()
+    {
+        hasTimerStopped = true;
+        Debug.Log("Таймер остановился, флаг установлен.");
+        if (isPlayerAlive)
+        {
+            ShowWinPanel();
+        }
+        else
+        {
+            ShowLosePanel();
+        }
+    }
+
     private void OnEnable()
     {
-        // Подписываемся на событие загрузки сцены
         SceneManager.sceneLoaded += OnSceneLoaded;
+        DifficultyBasedTimer.OnTimerStop += HandleTimerStop;
     }
 
     private void OnDisable()
     {
-        // Отписываемся от события загрузки сцены
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        DifficultyBasedTimer.OnTimerStop -= HandleTimerStop;
     }
 
     private void Start()
     {
-        // Скрываем панель при старте
-        if (gameOverPanel != null)
-        {
-            gameOverPanel.SetActive(false);
-        }
+        if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        if (winPanel != null) winPanel.SetActive(false);
+        if (losePanel != null) losePanel.SetActive(false);
     }
 
-    /// <summary>
-    /// Показывает финальную панель, останавливает спавнер, переносит объекты на слой ниже,
-    /// скрывает одни объекты и делает видимыми другие.
-    /// </summary>
-    public void ShowGameOverPanel()
+    // Общий метод для показа панели и выполнения общих действий
+    public void ShowResultPanel()
     {
-        // Отключаем скрипт спавнера
         if (spawnerScript != null)
         {
             spawnerScript.enabled = false;
             Debug.Log("[GameOverUIManager] Скрипт спавнера был отключён.");
         }
 
-        // Переносим все объекты спавна на слой ниже
         if (spawnContainer != null)
         {
             SetLayerForChildren(spawnContainer, "Background");
@@ -63,28 +76,43 @@ public class GameOverUIManager : MonoBehaviour
             Debug.LogWarning("[GameOverUIManager] Контейнер спавна не назначен!");
         }
 
-        // Скрываем объекты из массива objectsToHide
         HideObjects();
-
-        // Делаем видимыми объекты из массива objectsToShow
         ShowObjects();
-        
-        // Показываем панель
+
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
         }
 
-        // Устанавливаем финальный счёт
         if (finalScoreText != null)
         {
             finalScoreText.text = GetFinalScore().ToString();
         }
     }
 
+
     /// <summary>
-    /// Скрывает все объекты из массива objectsToHide.
+    /// Показывает панель победы.
     /// </summary>
+    public void ShowWinPanel()
+    {
+        ShowResultPanel(); // Выполняем общие действия
+        if (winPanel != null) winPanel.SetActive(true);
+        if (losePanel != null) losePanel.SetActive(false);
+        Debug.Log("[GameOverUIManager] Показана панель победы.");
+    }
+
+    /// <summary>
+    /// Показывает панель поражения.
+    /// </summary>
+    public void ShowLosePanel()
+    {
+        ShowResultPanel(); // Выполняем общие действия
+        if (winPanel != null) winPanel.SetActive(false);
+        if (losePanel != null) losePanel.SetActive(true);
+        Debug.Log("[GameOverUIManager] Показана панель поражения.");
+    }
+
     private void HideObjects()
     {
         if (objectsToHide != null && objectsToHide.Length > 0)
@@ -93,16 +121,13 @@ public class GameOverUIManager : MonoBehaviour
             {
                 if (obj != null)
                 {
-                    obj.SetActive(false); // Делаем объект невидимым
+                    obj.SetActive(false);
                     Debug.Log($"[GameOverUIManager] Объект '{obj.name}' был скрыт.");
                 }
             }
         }
     }
 
-    /// <summary>
-    /// Делает видимыми все объекты из массива objectsToShow.
-    /// </summary>
     private void ShowObjects()
     {
         if (objectsToShow != null && objectsToShow.Length > 0)
@@ -111,24 +136,18 @@ public class GameOverUIManager : MonoBehaviour
             {
                 if (obj != null)
                 {
-                    obj.SetActive(true); // Делаем объект видимым
+                    obj.SetActive(true);
                     Debug.Log($"[GameOverUIManager] Объект '{obj.name}' был показан.");
                 }
             }
         }
     }
 
-    /// <summary>
-    /// Получает финальный счёт из ScoreManager.
-    /// </summary>
     private int GetFinalScore()
     {
         return ScoreManager.Instance != null ? ScoreManager.Instance.GetCurrentScore() : 0;
     }
 
-    /// <summary>
-    /// Рекурсивно устанавливает слой для всех дочерних объектов.
-    /// </summary>
     private void SetLayerForChildren(Transform parent, string layerName)
     {
         int layer = LayerMask.NameToLayer(layerName);
@@ -141,20 +160,16 @@ public class GameOverUIManager : MonoBehaviour
 
         foreach (Transform child in parent)
         {
-            child.gameObject.layer = layer; // Меняем слой текущего объекта
-            SetLayerForChildren(child, layerName); // Рекурсивно для всех дочерних объектов
+            child.gameObject.layer = layer;
+            SetLayerForChildren(child, layerName);
         }
     }
-    
-    /// <summary>
-    /// Закрывает панель при загрузке новой сцены.
-    /// </summary>
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (gameOverPanel != null)
-        {
-            gameOverPanel.SetActive(false);
-            Debug.Log("[GameOverUIManager] Панель Game Over закрыта при загрузке новой сцены.");
-        }
+        if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        if (winPanel != null) winPanel.SetActive(false);
+        if (losePanel != null) losePanel.SetActive(false);
+        Debug.Log("[GameOverUIManager] Панели закрыты при загрузке новой сцены.");
     }
 }
