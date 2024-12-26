@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/OnBording.unity
+    guid: 8001aa11bed336f43891c4f855b65d6e
+  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 3fc8acdd13e6c734bafef6554d6fdbcd
   - enabled: 1

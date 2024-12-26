@@ -18,6 +18,9 @@ public class ScoreCsomosTimer : MonoBehaviour
 
     void Start()
     {
+        // Загружаем максимальный счёт из PlayerPrefs
+        maxScore = PlayerPrefs.GetInt("MaxScoreCosmos", 0);
+
         // Находим DifficultyBasedTimer при старте
         difficultyTimer = FindObjectOfType<DifficultyBasedTimer>();
 
@@ -59,6 +62,8 @@ public class ScoreCsomosTimer : MonoBehaviour
                 if (score > maxScore)
                 {
                     maxScore = score;
+                    PlayerPrefs.SetInt("MaxScoreCosmos", maxScore); // Сохраняем максимальный счёт в PlayerPrefs
+                    PlayerPrefs.Save(); // Явно сохраняем данные
                     UpdateMaxScoreText();
                 }
             }
@@ -101,7 +106,7 @@ public class ScoreCsomosTimer : MonoBehaviour
     {
         if (maxScoreText != null)
         {
-            maxScoreText.text = $"{maxScore}";
+            maxScoreText.text = $"Max: {maxScore}";
         }
     }
 }

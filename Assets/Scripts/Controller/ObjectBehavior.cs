@@ -34,13 +34,13 @@ public class ObjectBehavior : MonoBehaviour
     {
         if (isDestroyable)
         {
-            ScoreCounter.Instance.TrackObject(gameObject);
+            ScoreCounter.Instance?.TrackObject(gameObject);
         }
 
         rb2D = GetComponent<Rigidbody2D>();
         if (rb2D == null)
         {
-            Debug.LogError("Rigidbody2D не найден на объекте!");
+           
         }
 
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -116,17 +116,15 @@ public class ObjectBehavior : MonoBehaviour
     public event Action<GameObject> OnObjectDestroyed;
     private void OnDestroy()
     {
-        // Вызываем событие onDestroy, если оно подписано
-        if (onDestroy != null)
+        
+        if (gameObject.tag == "pairedTag")
         {
-            onDestroy(gameObject);
-
-            if (OnObjectDestroyed != null)
+            // Если да, то вызываем метод ObjectDestroyed у DestroyedObjectsCounter
+            DestroyedObjectsCounter counter = FindObjectOfType<DestroyedObjectsCounter>();
+            if (counter != null)
             {
-                OnObjectDestroyed(gameObject);
+                counter.ObjectDestroyed();
             }
         }
-            // Если объект с тегом PairedTag, уведомляем ScoreListManager
-
-     }
+    }
 }

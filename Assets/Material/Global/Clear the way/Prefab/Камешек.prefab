@@ -12,12 +12,9 @@ GameObject:
   - component: {fileID: 5738497634731956673}
   - component: {fileID: 3004187997272902879}
   - component: {fileID: 9009659602056672371}
-  - component: {fileID: 1468441335189736251}
   - component: {fileID: -1726624946391586603}
-  - component: {fileID: 627993630120200664}
   - component: {fileID: 5642208123578826476}
   - component: {fileID: 4128005238831395660}
-  - component: {fileID: 350352683182074683}
   m_Layer: 0
   m_Name: "\u041A\u0430\u043C\u0435\u0448\u0435\u043A"
   m_TagString: Enemy
@@ -80,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 458cb9e28eedd6c4db612c73a1f4588d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -149,24 +146,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f2de28266e2e674bb9d43313c672e16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialSpeed: 1
+  initialSpeed: 2
   acceleration: 0.1
   yBoundary: -11
---- !u!114 &1468441335189736251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3205087662328861117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f2de28266e2e674bb9d43313c672e16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialSpeed: 1
-  acceleration: 0.1
-  yBoundary: -10
 --- !u!114 &-1726624946391586603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,20 +164,8 @@ MonoBehaviour:
   isDestroyable: 1
   isMovable: 0
   destroyClicksRequired: 3
---- !u!114 &627993630120200664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3205087662328861117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e45bc934e6d54e34b93787f9ce9c400b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sortingLayerName: Foreground
-  orderInLayer: 10
+  sortingLayerOnDrag: Dragging
+  defaultSortingLayer: Default
 --- !u!114 &5642208123578826476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,16 +212,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &350352683182074683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3205087662328861117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f3730a0cf1b7294db70696f35bd8b61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreValue: 3

@@ -88,7 +88,7 @@ public class ObjectCharacteristics : MonoBehaviour
             }
             else
             {
-                Debug.LogError("[ObjectCharacteristics] HealthManager не найден на сцене!");
+                Debug.Log("[ObjectCharacteristics] HealthManager не найден на сцене!");
             }
         }
 
@@ -99,7 +99,7 @@ public class ObjectCharacteristics : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"[ObjectCharacteristics] Эффект смерти не назначен для объекта {gameObject.name}!");
+            Debug.Log($"[ObjectCharacteristics] Эффект смерти не назначен для объекта {gameObject.name}!");
         }
 
         // Запускаем анимацию смерти и уничтожаем объект
@@ -122,7 +122,7 @@ public class ObjectCharacteristics : MonoBehaviour
             HandleCollision(collision);
         }
     }
-
+    
    
 
     private void CreateDeathEffect(GameObject effectPrefab)

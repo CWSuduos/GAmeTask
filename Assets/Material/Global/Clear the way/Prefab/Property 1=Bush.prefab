@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2225535642498997261}
   - component: {fileID: 7639733551493627068}
   - component: {fileID: 7398965271442467683}
-  - component: {fileID: -7177420822819405304}
   - component: {fileID: 2033095568059143848}
   m_Layer: 0
   m_Name: Property 1=Bush
@@ -75,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 700ecf771039bb54ebf0cd6d72002dd2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -102,20 +101,6 @@ MonoBehaviour:
   initialSpeed: 1
   acceleration: 0.1
   yBoundary: -10
---- !u!114 &-7177420822819405304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3758263536133690641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e45bc934e6d54e34b93787f9ce9c400b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sortingLayerName: Foreground
-  orderInLayer: 10
 --- !u!114 &2033095568059143848
 MonoBehaviour:
   m_ObjectHideFlags: 0

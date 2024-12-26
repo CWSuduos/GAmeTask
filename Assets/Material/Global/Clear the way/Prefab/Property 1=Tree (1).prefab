@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7486784746900378905}
   - component: {fileID: 3094223078910017086}
   - component: {fileID: 8388642123366339373}
-  - component: {fileID: -2811850999121910098}
   - component: {fileID: -7739447426425713154}
   m_Layer: 0
   m_Name: Property 1=Tree (1)
@@ -75,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 4383f1cc724a8624fb1cc882816661c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -102,20 +101,6 @@ MonoBehaviour:
   initialSpeed: 1
   acceleration: 0.1
   yBoundary: -10
---- !u!114 &-2811850999121910098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8190912239898378144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e45bc934e6d54e34b93787f9ce9c400b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sortingLayerName: Foreground
-  orderInLayer: 10
 --- !u!114 &-7739447426425713154
 MonoBehaviour:
   m_ObjectHideFlags: 0

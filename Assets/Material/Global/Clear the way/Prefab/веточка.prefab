@@ -11,13 +11,10 @@ GameObject:
   - component: {fileID: 6867413389806862030}
   - component: {fileID: 4539611815439573496}
   - component: {fileID: 6713913823725018344}
-  - component: {fileID: -2305481871909902967}
   - component: {fileID: 506637974407090971}
   - component: {fileID: -2148581279488065211}
-  - component: {fileID: 4785084312769398107}
   - component: {fileID: -1597109135871744283}
   - component: {fileID: 7521147544129917897}
-  - component: {fileID: -7171850932900609480}
   m_Layer: 0
   m_Name: "\u0432\u0435\u0442\u043E\u0447\u043A\u0430"
   m_TagString: Enemy
@@ -80,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 0f6ac7e7ef9bdfc47b2d36fb498df5ab, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -137,21 +134,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.67, y: 0.34}
   m_EdgeRadius: 0
---- !u!114 &-2305481871909902967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7931724196370434888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f2de28266e2e674bb9d43313c672e16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialSpeed: 1
-  acceleration: 0.1
-  yBoundary: -11
 --- !u!114 &506637974407090971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f2de28266e2e674bb9d43313c672e16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialSpeed: 1
+  initialSpeed: 2
   acceleration: 0.1
   yBoundary: -10
 --- !u!114 &-2148581279488065211
@@ -182,20 +164,8 @@ MonoBehaviour:
   isDestroyable: 0
   isMovable: 1
   destroyClicksRequired: 1
---- !u!114 &4785084312769398107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7931724196370434888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e45bc934e6d54e34b93787f9ce9c400b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sortingLayerName: Foreground
-  orderInLayer: 10
+  sortingLayerOnDrag: Dragging
+  defaultSortingLayer: Default
 --- !u!114 &-1597109135871744283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,16 +212,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-7171850932900609480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7931724196370434888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f3730a0cf1b7294db70696f35bd8b61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreValue: 1

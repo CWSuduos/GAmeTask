@@ -7,6 +7,8 @@ public class MusicToggle : MonoBehaviour
     public Button toggleButton;     // Ссылка на кнопку
     private bool isMusicPlaying = true; // Флаг, указывает, играет ли музыка
 
+
+    
     private void Start()
     {
         // Проверяем, что ссылки на компоненты назначены
@@ -23,7 +25,7 @@ public class MusicToggle : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Button не назначен! Добавьте ссылку на кнопку в инспекторе.");
+            Debug.Log("Button не назначен! Добавьте ссылку на кнопку в инспекторе.");
         }
 
         // Включаем повтор музыки

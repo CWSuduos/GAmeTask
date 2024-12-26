@@ -45,3 +45,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Back
+    uniqueID: 3767668733
+    locked: 0
+  - name: FontObject
+    uniqueID: 1932201615
+    locked: 0
+  - name: Playble Object
+    uniqueID: 369708443
+    locked: 0

@@ -63,15 +63,17 @@ public class DifficultySettings : MonoBehaviour
     {
         return GetDifficultyData(currentDifficultyIndex);
     }
-
+    public ShaperTimer Timer;
     // Устанавливает текущую сложность
     public void SetDifficulty(int difficultyIndex)
     {
         if (difficultyIndex >= 0 && difficultyIndex < difficultySettings.Count)
         {
             currentDifficultyIndex = difficultyIndex;
-            StartTime = true;
+           
+            StartTime = true; 
             Debug.Log($"[DifficultySettings] Установлена сложность: {difficultyIndex}, Время: {difficultySettings[difficultyIndex].time}");
+
         }
         else
         {

@@ -69,7 +69,7 @@ public class MaxScoreManager : MonoBehaviour
     {
         if (maxScoreText != null)
         {
-            maxScoreText.text = $"{maxScore}";
+            maxScoreText.text = $"Max:  {maxScore}";
         }
         else
         {
@@ -125,7 +125,7 @@ public class MaxScoreManager : MonoBehaviour
     {
         if (maxBonusScoreText != null)
         {
-            maxBonusScoreText.text = $"{maxBonusScore}";
+            maxBonusScoreText.text = $"Max: {maxBonusScore}";
         }
         else
         {

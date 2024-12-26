@@ -13,10 +13,8 @@ GameObject:
   - component: {fileID: 3886489454105137703}
   - component: {fileID: 4605668897407204610}
   - component: {fileID: 2189418530858149859}
-  - component: {fileID: -2227656261667546327}
   - component: {fileID: 8261181287783728588}
   - component: {fileID: -3407401854483476429}
-  - component: {fileID: -244609094847895172}
   m_Layer: 0
   m_Name: "\u0411\u0440\u0451\u0432\u043D\u044B\u0448\u043A\u043E"
   m_TagString: Enemy
@@ -79,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 1a7992742fea64e41a25c6c66ebe43e0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -166,20 +164,8 @@ MonoBehaviour:
   isDestroyable: 0
   isMovable: 1
   destroyClicksRequired: 1
---- !u!114 &-2227656261667546327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7931414932478535423}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e45bc934e6d54e34b93787f9ce9c400b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sortingLayerName: Foreground
-  orderInLayer: 10
+  sortingLayerOnDrag: Dragging
+  defaultSortingLayer: Default
 --- !u!114 &8261181287783728588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,16 +212,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-244609094847895172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7931414932478535423}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f3730a0cf1b7294db70696f35bd8b61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreValue: 1
