@@ -23,7 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Shaper.unity
     guid: a005741e18b888943be646addc4dddab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/CatcherLoad.unity
     guid: 00aa07ba2845531418af8991cea92744
   - enabled: 1

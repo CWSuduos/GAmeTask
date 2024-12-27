@@ -348,9 +348,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1016268814}
-        m_TargetAssemblyTypeName: TransitionManager, Assembly-CSharp
-        m_MethodName: LoadNextScene
+      - m_Target: {fileID: 1016268815}
+        m_TargetAssemblyTypeName: SceneTransitionButton, Assembly-CSharp
+        m_MethodName: OnTransitionButtonClick
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -556,9 +556,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1016268812}
-        m_TargetAssemblyTypeName: TransitionManager, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 1016268815}
+        m_TargetAssemblyTypeName: SceneTransitionButton, Assembly-CSharp
+        m_MethodName: OnTransitionButtonClick
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1705,6 +1705,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1016268813}
   - component: {fileID: 1016268814}
+  - component: {fileID: 1016268815}
   m_Layer: 0
   m_Name: ManagerTransition
   m_TagString: Untagged
@@ -1742,6 +1743,18 @@ MonoBehaviour:
   loadingSlider: {fileID: 735505774}
   panelCanvasGroup: {fileID: 2021409104}
   loadingDuration: 4
+--- !u!114 &1016268815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016268812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55526cacb7f01da469836bb337086df8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1055076859
 GameObject:
   m_ObjectHideFlags: 0
