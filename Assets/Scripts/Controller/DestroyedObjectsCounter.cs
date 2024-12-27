@@ -30,7 +30,10 @@ public class DestroyedObjectsCounter : MonoBehaviour
             maxScore = destroyedCount;
         }
     }
-
+    private void Update()
+    {
+        DaubleCountText.text = countText.text;
+    }
     void UpdateCountDisplay()
     {
         if (countText != null)

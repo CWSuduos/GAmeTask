@@ -350,8 +350,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3472c7284d7313148b2145458b228669, type: 3}
   - {fileID: 21300000, guid: 4f7b9798b74bec547803eb827ca91ab8, type: 3}
   image: {fileID: 124290411}
-  nextButton: {fileID: 0}
-  currentIndex: 0
+  nextButton: {fileID: 1636443754}
+  fadeDuration: 0.5
+  moveDistance: 400
 --- !u!4 &728781771
 Transform:
   m_ObjectHideFlags: 0

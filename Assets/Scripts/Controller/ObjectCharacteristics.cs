@@ -102,8 +102,13 @@ public class ObjectCharacteristics : MonoBehaviour
             Debug.Log($"[ObjectCharacteristics] Эффект смерти не назначен для объекта {gameObject.name}!");
         }
 
-        // Запускаем анимацию смерти и уничтожаем объект
-        StartCoroutine(PlayerDeathAnimation(collision.gameObject));
+        // Проверяем, активен ли игровой объект перед запуском корутины
+        if (gameObject.activeInHierarchy)
+        {
+            // Запускаем анимацию смерти и уничтожаем объект
+            StartCoroutine(PlayerDeathAnimation(collision.gameObject));
+        }
+
         Destroy(gameObject);
     }
 

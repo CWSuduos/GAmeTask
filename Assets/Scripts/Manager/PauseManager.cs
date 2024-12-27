@@ -41,6 +41,12 @@ public class PauseManager : MonoBehaviour
         }
     }
 
+    void OnDestroy()
+    {
+        // Восстанавливаем время при уничтожении объекта
+        Time.timeScale = 1f;
+    }
+
     public void PauseGame() // Changed to public so other scripts could pause if needed.
     {
         if (!isPaused) // prevent pausing if already paused.
