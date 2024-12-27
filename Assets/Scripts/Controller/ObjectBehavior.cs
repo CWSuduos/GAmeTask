@@ -34,7 +34,7 @@ public class ObjectBehavior : MonoBehaviour
     {
         if (isDestroyable)
         {
-            ScoreCounter.Instance?.TrackObject(gameObject);
+           
         }
 
         rb2D = GetComponent<Rigidbody2D>();
