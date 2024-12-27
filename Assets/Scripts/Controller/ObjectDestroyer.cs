@@ -10,6 +10,7 @@ public class ObjectDestroyer : MonoBehaviour
         if (OnObjectDestroyed != null)
         {
             OnObjectDestroyed(gameObject);
+
         }
     }
 }

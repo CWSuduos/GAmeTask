@@ -1,66 +1,40 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UI; // Для стандартного Text
 
 public class DestroyedObjectsCounter : MonoBehaviour
 {
-    public Text countText; // Ссылка на UI Text компонент
-    public Text maxScoreText; // Ссылка на UI Text компонент для максимального счёта
-    private static int destroyedCount = 0;
-    private static int maxScore = 0;
-    public Text DaubleCountText;
+    // Ссылка на текстовое поле для отображения количества уничтоженных объектов
+    public Text destroyedObjectsTextField;
+
+    // Общее количество уничтоженных объектов
+    private int destroyedObjectsCount = 0;
+
     void Start()
     {
-        if (countText == null)
+        // Проверяем, что текстовое поле назначено
+        if (destroyedObjectsTextField == null)
         {
-            Debug.Log("Text component for count display is not assigned in the inspector!");
+            Debug.LogError("Текстовое поле не назначено! Убедитесь, что вы указали его в инспекторе.");
         }
-        if (maxScoreText == null)
+        else
         {
-            Debug.Log("Text component for max score display is not assigned in the inspector!");
-        }
-        UpdateCountDisplay();
-        UpdateMaxScoreDisplay();
-    }
-
-    public static void IncrementDestroyedCount()
-    {
-        destroyedCount++;
-        if (destroyedCount > maxScore)
-        {
-            maxScore = destroyedCount;
-        }
-    }
-    private void Update()
-    {
-        DaubleCountText.text = countText.text;
-    }
-    void UpdateCountDisplay()
-    {
-        if (countText != null)
-        {
-            countText.text = "Score: " + destroyedCount;
-            DaubleCountText.text = countText.text; 
+            UpdateDestroyedObjectsText();
         }
     }
 
-    void UpdateMaxScoreDisplay()
+    // Метод для увеличения счётчика уничтоженных объектов
+    public void IncrementDestroyedObjects()
     {
-        if (maxScoreText != null)
+        destroyedObjectsCount++;
+        UpdateDestroyedObjectsText();
+    }
+
+    // Метод для обновления текста
+    private void UpdateDestroyedObjectsText()
+    {
+        if (destroyedObjectsTextField != null)
         {
-            maxScoreText.text = "Max: " + maxScore;
+            destroyedObjectsTextField.text = $"{destroyedObjectsCount}";
         }
-    }
-
-    public void ObjectDestroyed()
-    {
-        IncrementDestroyedCount();
-        UpdateCountDisplay();
-        UpdateMaxScoreDisplay();
-    }
-
-    public void SetMaxScore(int score)
-    {
-        maxScore = score;
-        UpdateMaxScoreDisplay();
     }
 }

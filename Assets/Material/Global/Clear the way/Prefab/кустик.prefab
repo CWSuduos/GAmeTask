@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2065655894957275824}
   - component: {fileID: 2917525621969134760}
   - component: {fileID: -186058921937456591}
+  - component: {fileID: 4880685884135629421}
   m_Layer: 0
   m_Name: "\u043A\u0443\u0441\u0442\u0438\u043A"
   m_TagString: Enemy
@@ -166,6 +167,7 @@ MonoBehaviour:
   destroyClicksRequired: 1
   sortingLayerOnDrag: Dragging
   defaultSortingLayer: Default
+  destroyedObjectsCounter: {fileID: 0}
 --- !u!114 &2917525621969134760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,3 +214,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &4880685884135629421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2299323764959873089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e69955639e38114cbe5135de8693998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -112,19 +112,17 @@ public class ObjectBehavior : MonoBehaviour
             transform.position = newPosition;
         }
     }
-
+  
     public event Action<GameObject> OnObjectDestroyed;
     private void OnDestroy()
     {
-        
+        // Увеличиваем счётчик уничтоженных объектов в DestroyedObjectsCounter при уничтожении объекта
+       
         if (gameObject.tag == "pairedTag")
         {
             // Если да, то вызываем метод ObjectDestroyed у DestroyedObjectsCounter
             DestroyedObjectsCounter counter = FindObjectOfType<DestroyedObjectsCounter>();
-            if (counter != null)
-            {
-                counter.ObjectDestroyed();
-            }
+            
         }
     }
 }
