@@ -11,7 +11,7 @@ public class Score : MonoBehaviour
     public static int score = 0;
     // —сылка на текстовое поле дл€ отображени€ счЄта
     public Text scoreText;
-
+    public Text scoreText1;
     // —сылка на текстовое поле дл€ отображени€ максимального счЄта
     public Text maxScoreText;
 
@@ -30,7 +30,8 @@ public class Score : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = "Score: " + score.ToString();
+            scoreText.text = score.ToString();
+            scoreText1.text = score.ToString();
         }
 
         if (maxScoreText != null)

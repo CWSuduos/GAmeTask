@@ -153,7 +153,7 @@ RectTransform:
   m_LocalScale: {x: 0.99981546, y: 0.99981546, z: 0.99981546}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 159766630}
+  m_Father: {fileID: 157459250}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -743,6 +743,8 @@ RectTransform:
   - {fileID: 209844834}
   - {fileID: 1571474424}
   - {fileID: 333698570}
+  - {fileID: 296576157}
+  - {fileID: 5520592}
   m_Father: {fileID: 2086161901}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -822,8 +824,6 @@ RectTransform:
   - {fileID: 1270265838}
   - {fileID: 552450691}
   - {fileID: 1756144841}
-  - {fileID: 296576157}
-  - {fileID: 5520592}
   m_Father: {fileID: 2086161901}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1285,7 +1285,7 @@ RectTransform:
   m_LocalScale: {x: 0.99981546, y: 0.99981546, z: 0.99981546}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 159766630}
+  m_Father: {fileID: 157459250}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4229,6 +4229,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 702721187}
+  scoreText1: {fileID: 333698572}
+  maxScoreText: {fileID: 0}
 --- !u!1 &1678395081
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class ScoreManager : MonoBehaviour
     [Header("UI")]
     public Text scoreText; // Ссылка на текстовый элемент UI для отображения очков
     public Text maxScoreText; // Ссылка на текст для отображения максимального счёта
-
+    public Text scoreText1;
     private int currentScore = 0; // Текущий счёт игрока
     private int maxScore = 0;     // Максимальный счёт
 
@@ -68,7 +68,8 @@ public class ScoreManager : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = $"Счёт: {currentScore}";
+            scoreText.text = $"Score: {currentScore}";
+            scoreText1.text = $"{currentScore}";
         }
         else
         {

@@ -11,7 +11,7 @@ public class DestroyedObjectsCounter : MonoBehaviour
 
     // —сылка на текстовое поле дл€ отображени€ счЄта уничтоженных объектов
     public Text destroyedObjectsText;
-
+    public Text destroyedObjectsText1;
     // —сылка на текстовое поле дл€ отображени€ максимального счЄта уничтоженных объектов
     public Text maxDestroyedObjectsText;
 
@@ -31,6 +31,7 @@ public class DestroyedObjectsCounter : MonoBehaviour
         if (destroyedObjectsText != null)
         {
             destroyedObjectsText.text = "Score: " + destroyedObjects.ToString();
+            destroyedObjectsText1.text = "Score: " + destroyedObjects.ToString();
         }
 
         if (maxDestroyedObjectsText != null)
