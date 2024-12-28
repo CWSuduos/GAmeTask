@@ -1,40 +1,41 @@
 using UnityEngine;
-using UnityEngine.UI; // Для стандартного Text
+using UnityEngine.UI;
 
 public class DestroyedObjectsCounter : MonoBehaviour
 {
-    // Ссылка на текстовое поле для отображения количества уничтоженных объектов
-    public Text destroyedObjectsTextField;
+    // Статическая переменная для хранения счёта уничтоженных объектов
+    public static int destroyedObjects = 0;
 
-    // Общее количество уничтоженных объектов
-    private int destroyedObjectsCount = 0;
+    // Статическая переменная для хранения максимального счёта уничтоженных объектов
+    public static int maxDestroyedObjects = 0;
 
-    void Start()
+    // Ссылка на текстовое поле для отображения счёта уничтоженных объектов
+    public Text destroyedObjectsText;
+
+    // Ссылка на текстовое поле для отображения максимального счёта уничтоженных объектов
+    public Text maxDestroyedObjectsText;
+
+    // Метод для увеличения счёта уничтоженных объектов
+    public static void IncrementDestroyedObjects()
     {
-        // Проверяем, что текстовое поле назначено
-        if (destroyedObjectsTextField == null)
+        destroyedObjects++;
+        if (destroyedObjects > maxDestroyedObjects)
         {
-            Debug.LogError("Текстовое поле не назначено! Убедитесь, что вы указали его в инспекторе.");
-        }
-        else
-        {
-            UpdateDestroyedObjectsText();
+            maxDestroyedObjects = destroyedObjects;
         }
     }
 
-    // Метод для увеличения счётчика уничтоженных объектов
-    public void IncrementDestroyedObjects()
+    // Обновление текста в текстовых полях
+    private void Update()
     {
-        destroyedObjectsCount++;
-        UpdateDestroyedObjectsText();
-    }
-
-    // Метод для обновления текста
-    private void UpdateDestroyedObjectsText()
-    {
-        if (destroyedObjectsTextField != null)
+        if (destroyedObjectsText != null)
         {
-            destroyedObjectsTextField.text = $"{destroyedObjectsCount}";
+            destroyedObjectsText.text = "Score: " + destroyedObjects.ToString();
+        }
+
+        if (maxDestroyedObjectsText != null)
+        {
+            maxDestroyedObjectsText.text = "Max: " + maxDestroyedObjects.ToString();
         }
     }
 }
